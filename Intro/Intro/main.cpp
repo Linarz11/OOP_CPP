@@ -1,6 +1,8 @@
 ﻿#include <iostream>
 using namespace std;
 
+#define tab "\t"
+//#define CONSTRUCTORS
 //Создание структуры:
 class Point
 {
@@ -8,11 +10,11 @@ class Point
 	double x; //Координата по X
 	double y; // Координата по Y
 public:
-	double get_x()
+	double get_x()const
 	{
 		return x;
 	}
-	double get_y()
+	double get_y()const
 	{
 		return y;
 	}
@@ -26,29 +28,78 @@ public:
 	}
 
 	//Constructors
-	Point()
+	/*Point()
 	{
-		x = y = 0;
-		cout << "Constructor:\t" << this << endl;
+		x = y = int();
+		cout << "Default_Constructor:\t" << this << endl;
 	}
 	Point(double x)
 	{
 		this->x = x;
 		this->y = 0;
+		cout << "Single-argument_Constructor: \t\t" << this << endl;
+	}
+
+	Point(double x, double y)
+	{
+		//Конструктор с параметрами создает точку на плоскости
+		this->x = x;
+		this->y = y;
 		cout << "Constructor: \t\t" << this << endl;
 	}
+*/
+	Point(double x = 0, double y = 0)
+	{
+		//Этот конструктор может быть вызван: - без параметров; - с одним параметром; - с двумя параметрами
+		this->x = x;
+		this->y = y;
+		cout << "Constructor:\t\t" << this << endl;
+
+	}
+	Point(const Point& other)
+	{
+		// other - это другой объект, копию которого мы создаем.
+		this->x = other.x;
+		this->y = other.y;
+		cout << "Copy_Constructor: \t" << this << endl;
+
+	}
+
 	~Point()
 	{
 		cout << "Destructor:\t\t" << this << endl;
 	}
 
+	// Operators
+	void operator=(const Point& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+		cout << "Copy_Assignment: \t\t" << this << endl;
+	}
 	//	Methods
 	void print()
 	{
 		cout << "X= " << x << "\tY= " << y << endl;
 	}
 
+	double distance(const Point& other)const
+	{
+		double x_distance = (other.x - this->x);
+		double y_distance = (other.y - this->y);
+		double distance = sqrt(x_distance * x_distance + y_distance * y_distance); //sqrt - квадратный корень
+		return distance;
+	}
 };
+
+double distance(const Point& A, const Point& B)
+{
+	
+	double x_distance = A.get_x() - B.get_x();
+	double y_distance = A.get_y() - B.get_y();
+	double distance = sqrt(x_distance * x_distance + y_distance * y_distance); //sqrt - квадратный корень
+	return distance;
+}
 
 // Создавая структуру или класс, мы создаем новый тип данных, 
 // а объявляя объекты этого класса или структры мы создаем переменные нашего типа.
@@ -73,9 +124,33 @@ void main()
 	cout << pA->get_x() << "\t" << pA->get_y() << endl;
 #endif // INTRO
 
-	Point A;
+#ifdef CONSTRUCTORS
+	Point A;//Default constructor
 	cout << A.get_x() << "\t" << A.get_y() << endl;
 
-	Point B = 5;
+	Point B = 5;// Single-argument constructor
 	B.print();
+
+	Point C(8); // Single - argument constructoor
+	C.print();
+
+	Point D{ 12 };
+	D.print();
+
+	Point E(5, 3);
+	E.print();
+
+	Point F = E; // При таком создании вызовется Copy_Constructor
+
+	Point G; //Default_Constructor
+	G = D; // Copy_Assignment - оператор присвоить (operator=)
+	G.print();
+#endif // CONSTRUCTORS
+
+	Point A(2, 3);
+	Point B(4, 5);
+	A.print();
+	B.print();
+	cout << "Расстояние равно: "<< A.distance(B) << endl;
+	cout << "Растояние через функцию равно: " << distance(A, B) << endl;
 }
