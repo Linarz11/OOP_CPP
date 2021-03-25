@@ -3,7 +3,14 @@ using namespace std;
 
 #define tab "\t"
 //#define CONSTRUCTORS
+#define ASSIGNMENT_CHECK
+//#define DISTANCE
+//#define OPERATOR_EXAMPLES
 //Создание структуры:
+
+using std::cin;
+using std::cout;
+using std::endl;
 class Point
 {
 	//Структура Point описывает точки на плоскости
@@ -71,11 +78,12 @@ public:
 	}
 
 	// Operators
-	void operator=(const Point& other)
+	Point& operator=(const Point& other)
 	{
 		this->x = other.x;
 		this->y = other.y;
 		cout << "Copy_Assignment: \t\t" << this << endl;
+		return *this;
 	}
 	//	Methods
 	void print()
@@ -111,6 +119,10 @@ double distance(const Point& A, const Point& B)
 //#define INTRO
 void main()
 {
+	
+
+
+
 	setlocale(LC_ALL, "Rus");
 #ifdef INTRO
 	int a; // Объявление перпеменной 'a', типа int 
@@ -147,10 +159,31 @@ void main()
 	G.print();
 #endif // CONSTRUCTORS
 
+#ifdef ASSIGNMENT_CHECK
+	int a, b, c;
+	a = b = c = 0;
+	Point A, B, C;
+	A = B = C = Point();
+
+#endif // ASSIGNMENT_CHECK
+
+#ifdef DISTANCE
 	Point A(2, 3);
 	Point B(4, 5);
+
+#ifdef OPERATOR_EXAMPLES
+	cout << A + B << endl; // Неявный вызов оператора +
+	cout << A.operator+(B) << endl; //Явный вызов оператора +, перегруженного в классе
+	cout << operator +(A, B) << endl; //Явный вызов оператора +, перегруженного за классом  
+#endif // OPERATOR_EXAMPLES
+
+
 	A.print();
 	B.print();
-	cout << "Расстояние равно: "<< A.distance(B) << endl;
+	cout << "Расстояние равно: " << A.distance(B) << endl;
 	cout << "Растояние через функцию равно: " << distance(A, B) << endl;
+#endif // DISTANCE
+
+
+
 }
