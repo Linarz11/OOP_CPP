@@ -9,7 +9,7 @@ using namespace std;
 
 #define tab "\t"
 #//define ARITHMETICAL_OPERATORS_CHECK
-
+#define DEBUG
 
 class Fraction;//CLass declaration - объявление класса
 Fraction operator+(Fraction left, Fraction right);//ПРототип оператора +
@@ -152,6 +152,7 @@ Fraction& get_minus_from_number()
 
 #endif // DEBUG
 	}
+
 	explicit Fraction(int integer)
 	{
 		this->minus = false;
@@ -168,6 +169,25 @@ Fraction& get_minus_from_number()
 
 #endif // DEBUG
 	}
+
+	Fraction(double decimal)
+	{
+		decimal += 1e-10;
+		minus = false;
+		if (decimal < 0)
+		{
+			minus = true;
+			decimal = -decimal;
+		}
+		integer = decimal;
+		decimal -= integer;
+		denominator = 1e+9;
+		numerator = decimal * denominator;
+		reduce();
+		cout << "Constructor double: \t" << this << endl;
+
+	}
+
 	Fraction(int numerator, int denominator)
 	{
 		this->minus = false;
@@ -272,9 +292,16 @@ Fraction& get_minus_from_number()
 	}
 
 	//                TYPE CAST OPERATORS
-	operator int() const
+	explicit operator int() const
 	{
 		return minus ? -integer : integer;
+	}
+
+	explicit operator double() const
+	{
+		
+		return minus ? -(integer+((double)numerator / denominator)) : (integer+(double)numerator / denominator);
+	
 	}
 	//Methods
 	Fraction& to_proper()
@@ -384,6 +411,9 @@ ostream& operator<<(ostream& os, const Fraction& obj)
 
 }
 
+
+//#define INCREMENTS_CHECK
+
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -444,31 +474,53 @@ void main()
 	//A--;
 	//cout << "A-- = " << A << endl;
 	//cout << A << endl;
-	//Fraction reduce(840, 3600);
-	//cout << reduce << endl;
-	//cout << reduce.reduce() << endl;
-	//cout << Fraction(29, 37).reduce() << endl;
+#ifdef INCREMENT_CHECK
+	Fraction reduce(840, 3600);
+	cout << reduce << endl;
+	cout << reduce.reduce() << endl;
+	cout << Fraction(29, 37).reduce() << endl;
 
-	//for (double i = 0.3; i < 10; i++)
-	//{
-	//	cout << i << "\t"; 
-	//}
-	//	cout << endl;
-	//for (Fraction i(1, 2); i.get_integer() < 10; i++)
-	//{
-	//	cout << i << "\t";
-	//}
-	//	cout << endl;
+	for (double i = 0.3; i < 10; i++)
+	{
+		cout << i << "\t";
+	}
+	cout << endl;
+	for (Fraction i(1, 2); i.get_integer() < 10; i++)
+	{
+		cout << i << "\t";
+	}
+	cout << endl;
+#endif // INCREMENT_CHECK
+
 		
-	int  a = 2;
+	/*int  a = 2;
+	double b = 2;
+	int c = b;
+	double d = 2.5;
+	int e = d;*/
 
 
+		Fraction A = (Fraction)5;// from int to Fraction (From less to more) Это преобразование выполняет конструктор с одним параметром.
+		//Fraction A(5);//Если конструктор Explicit, то его можно вызвать только так.
+		//cout << "Fraction A =" << A << endl;
+		/*cout << sizeof(int) << endl;
+		cout << sizeof(Fraction) << endl;*/
+		
+		//Type cast operator
+		int a;
 
-		Fraction A = 5;// from int to Fraction (From less to more) Это преобразование выполняет конструктор с одним параметром.
+		//a = (int)A;//From more to less,possible loss of data (operator int)
+		//cout <<"Int a = " << a << endl;
 
-		cout << sizeof(int) << endl;
-		cout << sizeof(Fraction) << endl;
-		a = A;
-		cout << a << endl;
-		cout << sizeof(a) << endl;
+		//Fraction B(-3, 4, 5);
+		//cout << B << endl;
+		//double b = (double)B;
+		//cout << b << endl;
+		//int c = (int)B;
+		//cout << c << endl;
+		
+		Fraction  C= 2.3;
+		cout <<C << endl;
+		cout <<(double)C << endl;
+
 }
