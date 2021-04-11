@@ -6,6 +6,7 @@ using namespace std;
 //#define CONSTRUCTORS_CHECK
 //#define COMPOUND_ASSIGNMENTS_CHECK
 //#define TYPE_CONVERSIONS
+#define COMPARISON_OPERATORS
 
 #define tab "\t"
 #//define ARITHMETICAL_OPERATORS_CHECK
@@ -395,6 +396,22 @@ Fraction operator/(Fraction left, Fraction right)
 	 return result;
 }
 
+bool operator==(Fraction left, Fraction right)
+{
+	left.to_improper().reduce();
+	right.to_improper().reduce();
+	/*if (left.get_numerator() * right.get_denominator() == right.get_numerator() * left.get_numerator())
+	{
+		return true;
+	}
+	else return false;*/
+	return 	left.get_numerator() * right.get_denominator() == right.get_numerator() * left.get_denominator();
+}
+bool operator!=(const Fraction& left, const Fraction& right)
+{
+	return!(left == right);
+}
+
 
 
 ostream& operator<<(ostream& os, const Fraction& obj)
@@ -500,14 +517,14 @@ void main()
 	int e = d;*/
 
 
-		Fraction A = (Fraction)5;// from int to Fraction (From less to more) Это преобразование выполняет конструктор с одним параметром.
+		//Fraction A = (Fraction)5;// from int to Fraction (From less to more) Это преобразование выполняет конструктор с одним параметром.
 		//Fraction A(5);//Если конструктор Explicit, то его можно вызвать только так.
 		//cout << "Fraction A =" << A << endl;
 		/*cout << sizeof(int) << endl;
 		cout << sizeof(Fraction) << endl;*/
 		
 		//Type cast operator
-		int a;
+		//int a;
 
 		//a = (int)A;//From more to less,possible loss of data (operator int)
 		//cout <<"Int a = " << a << endl;
@@ -519,8 +536,28 @@ void main()
 		//int c = (int)B;
 		//cout << c << endl;
 		
-		Fraction  C= 2.3;
+		/*Fraction  C= 2.3;
 		cout <<C << endl;
-		cout <<(double)C << endl;
+		cout <<(double)C << endl;*/
+
+#ifdef COMPARISON_OPERATORS
+
+		Fraction A(1, 2);
+		Fraction B(5, 11);
+		/*if (A == B)
+		{
+			cout << "Fractions equal" << endl;
+
+		}
+		else
+		{
+			cout << "Fractions different" << endl;
+
+		}*/
+		//cout << "Fractions " << (A == B ? "equal" : "different") << endl;
+		cout << (A == B) << endl;
+		cout << (A != B) << endl;
+#endif // COMPARISON_OPERATORS
+
 
 }

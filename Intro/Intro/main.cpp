@@ -138,7 +138,7 @@ public:
 	//{
 	//	return Point(this->x / other.x, this->y / other.y);
 	//}
-	
+
 
 
 
@@ -161,9 +161,9 @@ Point operator+(const Point& left, const Point& right)
 {
 	Point result;
 	result.set_x(left.get_x() + right.get_x());
-		result.set_y(left.get_y() + right.get_y());
-		cout << "Global+" << endl;
-		return result;
+	result.set_y(left.get_y() + right.get_y());
+	cout << "Global+" << endl;
+	return result;
 }
 
 Point operator-(const Point& left, const Point& right)
@@ -183,18 +183,20 @@ Point operator*(const Point& left, const Point& right)
 
 Point operator/(const Point& left, const Point& right)
 {
-	return Point(left.get_x() / right.get_x(), left.get_y()/ right.get_y());
+	return Point(left.get_x() / right.get_x(), left.get_y() / right.get_y());
 }
+
+
 
 ostream& operator<<(ostream& os/* output stream*/, const Point& obj)
 {
-	 return os << "X = " << obj.get_x() << tab << "Y = " << obj.get_y();
+	return os << "X = " << obj.get_x() << tab << "Y = " << obj.get_y();
 }
 
 
 double distance(const Point& A, const Point& B)
 {
-	
+
 	double x_distance = A.get_x() - B.get_x();
 	double y_distance = A.get_y() - B.get_y();
 	double distance = sqrt(x_distance * x_distance + y_distance * y_distance); //sqrt - квадратный корень
@@ -273,7 +275,7 @@ void main()
 #endif // DISTANCE
 
 #ifdef OPERATORS_OVERLOADS
-	
+
 
 	int a = 2;
 	int b = 3;
@@ -299,15 +301,15 @@ void main()
 	Point B(4, 5);
 	A += B;
 	A.print();
-	/*++A; 
+	/*++A;
 	A.print();
 	A++;
 	A.print();*/
-	
-	cout << A++<< endl;
-	cout << A <<endl;
-	cout << ++A<<endl;
-	cout << A<<endl ;
+
+	cout << A++ << endl;
+	cout << A << endl;
+	cout << ++A << endl;
+	cout << A << endl;
 	++A++;
 #endif // COMPOUND_ASSIGNMENTS
 
