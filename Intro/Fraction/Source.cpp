@@ -412,7 +412,25 @@ bool operator!=(const Fraction& left, const Fraction& right)
 	return!(left == right);
 }
 
+bool operator >(const Fraction& left, const Fraction& right)
+{
+	return((double)left > (double)right);
+}
 
+bool operator <(const Fraction& left, const Fraction& right)
+{
+	return((double)left < (double)right);
+}
+
+bool operator >=(const Fraction& left, const Fraction& right)
+{
+	return((double)left >= (double)right);
+}
+
+bool operator <=(const Fraction& left, const Fraction& right)
+{
+	return((double)left <= (double)right);
+}
 
 ostream& operator<<(ostream& os, const Fraction& obj)
 {
@@ -542,8 +560,8 @@ void main()
 
 #ifdef COMPARISON_OPERATORS
 
-		Fraction A(1, 2);
-		Fraction B(5, 11);
+		Fraction A(5, 1);
+		Fraction B(5, 2);
 		/*if (A == B)
 		{
 			cout << "Fractions equal" << endl;
@@ -555,8 +573,12 @@ void main()
 
 		}*/
 		//cout << "Fractions " << (A == B ? "equal" : "different") << endl;
-		cout << (A == B) << endl;
-		cout << (A != B) << endl;
+		cout << "Равно\t"<<(A == B) << endl;
+		cout << "Не равно\t" <<(A != B) << endl;
+		cout << "БОльше\t" <<(A > B) << endl;
+		cout << "Меньше\t" <<(A < B) << endl;
+		cout << "Больше или равно\t" <<(A >= B) << endl;
+		cout << "Меньше или равно\t" <<(A <= B) << endl;
 #endif // COMPARISON_OPERATORS
 
 
