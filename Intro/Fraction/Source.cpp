@@ -422,14 +422,19 @@ bool operator <(const Fraction& left, const Fraction& right)
 	return((double)left < (double)right);
 }
 
+
+
 bool operator >=(const Fraction& left, const Fraction& right)
 {
-	return((double)left >= (double)right);
+	//return((double)left >= (double)right);
+	return left > right || left == right;
+
 }
 
 bool operator <=(const Fraction& left, const Fraction& right)
 {
-	return((double)left <= (double)right);
+	//return((double)left <= (double)right);
+	return !(left > right);
 }
 
 ostream& operator<<(ostream& os, const Fraction& obj)
@@ -560,7 +565,7 @@ void main()
 
 #ifdef COMPARISON_OPERATORS
 
-		Fraction A(5, 1);
+		Fraction A(5, 11);
 		Fraction B(5, 2);
 		/*if (A == B)
 		{
