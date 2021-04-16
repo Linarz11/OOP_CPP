@@ -3,6 +3,9 @@
 using namespace std;
 
 #define delimeter "\n-----------------------------\n"
+class String;
+String operator+(const String& left, const String& right);
+
 class String
 {
 	char* str; //Указатель на строку в динамической памяти
@@ -42,10 +45,21 @@ public:
 		strcpy(this->str, other.str);
 		cout << "CopyConstructor:\t" << this << endl;
 	}
+	String(String&& other)
+	{
+		this->size = other.size;
+		this->str = other.str;
+		other.str = nullptr;
+		cout << "MoveConstructor: \t" << this << endl;
+	}
+
+	
+
+
 	~String()
 	{
 		delete[] this->str;
-		cout << "DEstructor:\t\t" << this << endl;
+		cout << "Destructor:\t\t" << this << endl;
 	}
 
 	//Operators
@@ -59,8 +73,42 @@ public:
 		this->size = other.size;
 		this->str = new char[size] {};
 		strcpy(this->str, other.str);
-		cout << "CopyConstructor:\t\t" << this << endl;
+		cout << "CopyAssignment:\t\t" << this << endl;
 		return *this;
+	}
+
+	String& operator=(String&& other)
+	{
+		delete[] this->str;
+		this->size = other.size;
+		this->str = other.str;
+		other.str=nullptr;
+		cout << "MoveAssignment:\t\t" << this << endl;
+		return *this;
+	}
+
+	String& operator+=(String& other)
+	{
+		return *this = *this + other;
+		
+		
+		
+		/*char* result = new char[this->size + other.size];
+		strcpy(result, this->str);
+		strcat(result, other.str);
+		delete[] str;
+		this->str = result;
+		return *this;*/
+	}
+	
+
+	char& operator[](int i)const
+	{
+		return this->str[i];
+	}
+	char& operator[](int i)
+	{
+		return this->str[i];
 	}
 
 	//			Methods
@@ -76,10 +124,10 @@ public:
 	
 };
 
-String operator +(const String& left, const String& right)
+String operator+(const String& left, const String& right)
 {
 	String result(left.get_size() + right.get_size() - 1);
-	for (int i = 0; i < left.get_size(); i++)
+	/*for (int i = 0; i < left.get_size(); i++)
 	{
 		//result.get_str()[i] = left.get_str()[i];
 		result[i] = left[i];
@@ -87,11 +135,17 @@ String operator +(const String& left, const String& right)
 	for (int i = 0; i < right.get_size(); i++)
 	{
 		//result.get_str()[i+left.get_size()-1] = right.get_str()[i];
-		result[i + left.get_size() - 1] = right[i];
-	}
+		result [i + left.get_size() - 1] = right[i];
+	}*/
+	strcpy(result.get_str(), left.get_str());//strcpy - выполняет копирование строки left в строку result
+	strcat(result.get_str(), right.get_str());//выполняет конкатенацию строки right в строку result
 		return result;
-	
 }
+
+
+
+
+
 
 ostream& operator<<(ostream& os, const String& obj)
 {
@@ -135,12 +189,16 @@ void main()
 
 #endif // ASSIGNMENT_CHECK
 
-	String str1 =  "Hello" ;
-	String str2 = "World" ;
+	String str1 =  "Hello, " ;
+	String str2 = "World!" ;
 	cout << delimeter << endl;
-	String str3 = str1 + "," + " " + str2;// Оператор + будет выполнять конкатенацию (слияние) строк
+	String str3;
+	str3= str1 + str2;// Оператор + будет выполнять конкатенацию (слияние) строк
 	cout << delimeter << endl;
 
 	cout << str3<< endl;
 	
+	//cout << delimeter;
+	//str1 += str2;
+	//cout << str1 << endl;
 }
