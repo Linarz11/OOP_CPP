@@ -25,30 +25,32 @@ public:
 	}
 	//   Constructors
 
-	explicit String(int size = 80)
+	explicit String(int size = 80) :size(size), str(new char[size] {})
 	{
-		this->size = size;
-		this->str = new char[size] {};
+		//this->size = size;
+		//this->str = new char[size] {};
 		cout << (size==80? "DEfault" :"Size")<< "_Constructor:\t" << this << endl;
 	}
-	String(const char* str)
+	String(const char* str) : String(strlen(str)+1)//Делегирование конструктора с одним параметром типа int
 	{
-		this->size = strlen(str) + 1;
-		this->str = new char[size] {};
+		//this->size = strlen(str) + 1;
+		//this->str = new char[size] {};
 		strcpy(this->str, str);	//String copy
 		cout << "Constructor:\t" << this << endl;
 	}
-	String(const String& other)
+	String(const String& other):String (other.str)
 	{
-		this->size = other.size;
+		/*this->size = other.size;
 		this->str = new char[size] {};
-		strcpy(this->str, other.str);
+
+		strcpy(this->str, other.str);*/
+
 		cout << "CopyConstructor:\t" << this << endl;
 	}
-	String(String&& other)
+	String(String&& other):size(other.size), str(other.str)
 	{
-		this->size = other.size;
-		this->str = other.str;
+		/*this->size = other.size;
+		this->str = other.str;*/
 		other.str = nullptr;
 		cout << "MoveConstructor: \t" << this << endl;
 	}
@@ -154,7 +156,7 @@ ostream& operator<<(ostream& os, const String& obj)
 
 //#define CONSTRUCTORS_CHECK
 //#define ASSIGNMENT_CHECK
-
+//#define OPERATOR_PLUS_CHECK
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -189,16 +191,44 @@ void main()
 
 #endif // ASSIGNMENT_CHECK
 
-	String str1 =  "Hello, " ;
-	String str2 = "World!" ;
+#ifdef OPERATOR_PLUS_CHECK
+	String str1 = "Hello, ";
+	String str2 = "World!";
 	cout << delimeter << endl;
 	String str3;
-	str3= str1 + str2;// Оператор + будет выполнять конкатенацию (слияние) строк
+	str3 = str1 + str2;// Оператор + будет выполнять конкатенацию (слияние) строк
 	cout << delimeter << endl;
 
-	cout << str3<< endl;
-	
+	cout << str3 << endl;
+
 	//cout << delimeter;
 	//str1 += str2;
-	//cout << str1 << endl;
+	//cout << str1 << endl;  
+#endif // OPERATOR_PLUS_CHECK
+
+	String str1;//Default Constructor
+	str1.print();
+	String str2 = "Hello"; //Single Argument constructor
+	str2.print();
+
+	String str3("World"); //Single Argument Constructor
+	str3.print();
+
+	String str4(int a, int b); //Объявление функции str4, которая ничего не принимает,
+									//и возвращает значение типа String
+									//String str4; не вызывает конструктор по умолчанию
+
+	String str5{}; //Явно вызывается конструктор по умолчанию
+	str5.print();
+	String str6{ 7 };
+	str6.print();
+
+	String str7{ "Привет" };
+	str7.print();
+	String str8 = str7;
+	str8.print();
+	cout << delimeter << endl;
+	cout << str2 + str3 << endl;
+	cout << delimeter << endl;
+
 }
