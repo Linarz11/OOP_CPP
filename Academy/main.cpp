@@ -5,6 +5,8 @@
 
 using namespace std;
 
+#define delimeter "\n---------------------------------------------------\n"
+
 #define HUMAN_GET_PARAMETERS		const string& last_name, const string& first_name,  unsigned int age
 #define STUDENT_GET_PARAMETERS		const string& speciality, const string& group, double rating
 #define TEACHER_GET_PARAMETERS 		const string& speciality, unsigned int experience
@@ -66,13 +68,13 @@ public:
 		set_age(age);
 		cout << "HConstructor:\t" << this << endl;
 	}
-	~Human()
+	virtual ~Human()
 	{
 		cout << "HDestructor:\t" << this << endl;
 	}
 
 	//		MEthods
-	void info() const
+	virtual void info() const
 	{
 		//cout << "Last name:" << last_name << endl;
 		//cout << "First name:" << first_name << endl;
@@ -84,7 +86,7 @@ public:
 
 };
 
-class Student :private Human
+class Student :public Human
 {
 	string speciality;
 	string group;
@@ -209,7 +211,7 @@ public:
 	Graduate
 	(
 		HUMAN_GET_PARAMETERS, //Атрибуты базового класса
-		STUDENT_GET_PARAMETERS
+		STUDENT_GET_PARAMETERS,
 		const string& topic
 	) :Student(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS),
 		topic(topic)
@@ -250,5 +252,32 @@ human.info();*/
 		"Распространение колбас");
 	Tony.info();
 #endif // INHERITANCE_CHECK
+	
 
+	// 1. Generalization
+
+	Human* group[] =
+	{
+	new Student("Батодалаев", "Даши", 16, "РПО", "PD_011", 5),
+	new Student("Загидуллин", "Линар", 32, "РПО", "PD_011", 5),
+	new Graduate("Шугани", "Сергей", 15, "РПО", "PD_011", 5, "Защита Персональных данных"),
+	new Teacher("Эйнштейн", "Альберт", 141, "Astrophisics", 110),
+	new Student("Маркин", "Даниил", 17, "РПО", "PD_011", 5),
+	new Teacher("КОвтун", "ОЛег ", 35, "С++", 99)
+	};
+	cout << sizeof(group) << endl;
+	// 2. Specialization
+
+	cout <<delimeter;
+	for (int i = 0; i < sizeof(group)/sizeof(Human*); i++)
+	{
+		group[i]->info();
+		cout << delimeter;
+
+	}
+
+	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
+	{
+		delete group[i];
+	}
 }
