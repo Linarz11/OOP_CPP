@@ -5,6 +5,16 @@
 
 using namespace std;
 
+#define HUMAN_GET_PARAMETERS		const string& last_name, const string& first_name,  unsigned int age
+#define STUDENT_GET_PARAMETERS		const string& speciality, const string& group, double rating
+#define TEACHER_GET_PARAMETERS 		const string& speciality, unsigned int experience
+
+#define HUMAN_TAKE_PARAMETERS		last_name, first_name, age
+#define STUDENT_TAKE_PARAMETERS		speciality, group, rating
+#define TEACHER_TAKE_PARAMETERS		speciality, experience
+
+//#define INHERITANCE_CHECK
+
 class Human
 {
 	string last_name;
@@ -109,9 +119,9 @@ public:
 	}
 
 	//		Constructors
-	Student(const string& last_name, const string& first_name, /*const time_t& birth_date*/ unsigned int age, //Атрибуты базового класса
-			const string& speciality, const string& group, double rating		//АТрибуты нашего текущего класса
-	):Human(last_name, first_name, age)
+	Student(HUMAN_GET_PARAMETERS, //Атрибуты базового класса
+			STUDENT_GET_PARAMETERS		//АТрибуты нашего текущего класса
+	):Human(HUMAN_TAKE_PARAMETERS)
 	{
 		set_speciality(speciality);
 		set_group(group);
@@ -159,9 +169,9 @@ public:
 	//		Constructors
 	Teacher
 	(
-		const string& last_name, const string& first_name, unsigned int age,
-		const string& speciality, unsigned int experience
-	) :Human(last_name, first_name, age)
+		HUMAN_GET_PARAMETERS,
+		TEACHER_GET_PARAMETERS
+	) :Human(HUMAN_TAKE_PARAMETERS)
 	{
 		set_speciality(speciality);
 		set_experience(experience);
@@ -183,17 +193,62 @@ public:
 };
 
 
+class Graduate : public Student
+{
+	string topic; // тема дипломного проекта
+public:
+	const string& get_topic() const
+	{
+		return this->topic;
+	}
+	void set_topic(const string& topic)
+	{
+		this->topic = topic;
+	}
+
+	Graduate
+	(
+		HUMAN_GET_PARAMETERS, //Атрибуты базового класса
+		STUDENT_GET_PARAMETERS
+		const string& topic
+	) :Student(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS),
+		topic(topic)
+	{
+		cout << "GConstructor:\t" << this << endl;
+	}
+	~Graduate()
+	{
+		cout << "GDestructor:\t" << this << endl;
+	}
+
+	void info() const
+	{
+		Student::info();
+		cout << "Тема дипломного проекта: " << topic << endl;
+	}
+};
+
+
 void main()
 {
 	setlocale(LC_ALL, "");
 	
+#ifdef INHERITANCE_CHECK
 	/*Human human("Тупенко", "Василий", 18);
-	human.info();*/
+human.info();*/
 
 	Student Vasya("Тупенко", "Василий", 18, "Программирование", "PD-011", 4.5);
 	Vasya.info();
 
 	Teacher Oleg("Ковтун", "Олег", 35, "ООП С++", 11.5);
 	Oleg.info();
+
+
+	Graduate Tony(
+		"Montana", "Antonio", 25,
+		"Современные технологии продаж", "BV-011", 80,
+		"Распространение колбас");
+	Tony.info();
+#endif // INHERITANCE_CHECK
 
 }
